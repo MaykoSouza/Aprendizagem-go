@@ -1,0 +1,55 @@
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+type Todo struct{
+	ID int
+	Title string
+	Completed bool
+}
+var todos []Todo 
+var nextID	 int = 1
+
+func main () {
+	for {
+		printMenu()
+		escolha := readInput()
+
+		switch escolha {
+		case "1":
+			addTodo()
+		case "2":
+			listTodos()
+		case "3":
+			markCompleted()
+		case "4":
+			deleteTodo()
+		case "0":
+			fmt.Println("Saindo...")
+			return
+		default:
+			fmt.Println("Opção inválida, tente novamente.")
+		}
+	}
+}
+
+func printMenu() {
+	fmt.Println("\n---- TO DO LIST ----")
+	fmt.Println("1. Adicionar tarefa")
+	fmt.Println("2. Listar tarefas")
+	fmt.Println("3. Marcar tarefa como concluída")
+	fmt.Println("4. Deletar tarefa")
+	fmt.Println("0. Sair")
+	fmt.Println("Escoha uma opção:")
+}
+
+func readInput() string {
+	reader := bufio.NewReader(os.Stdin)
+	input , _ := reader.ReadString('\n')
+	return strings.TrimSpace(input)
+}
+
+
