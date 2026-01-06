@@ -10,6 +10,7 @@ type Todo struct{
 	Title string
 	Completed bool
 }
+
 var todos []Todo 
 var nextID	 int = 1
 
@@ -49,7 +50,30 @@ func printMenu() {
 func readInput() string {
 	reader := bufio.NewReader(os.Stdin)
 	input , _ := reader.ReadString('\n')
-	return strings.TrimSpace(input)
+	return strings.TrimSpace(input) // Remove espaços em brancos no início e no final de uma string 
 }
+
+func addTodo() {
+	fmt.Println("Adicione um título a tarefa")
+	title := readInput()
+
+	if title == "" {
+		fmt.Println("Adicione um título válido")
+	}
+
+	newTodo := todo{
+		ID: nextID,
+		Title: title,
+		Completed: false, // por padrão quando não é false mas eu preferi deixar explícito
+	}
+
+	todos = append(todos, newTodo)
+
+	nextID++
+	fmt.Println("Tarefa adicionanda com sucesso!")
+}
+
+
+
 
 
