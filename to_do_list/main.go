@@ -1,3 +1,4 @@
+package main
 import (
 	"bufio"
 	"fmt"
@@ -64,7 +65,7 @@ func addTodo() {
 	newTodo := todo{
 		ID: nextID,
 		Title: title,
-		Completed: false, // por padrão quando não é false mas eu preferi deixar explícito
+		Completed: false, // por padrão é false mas eu preferi deixar explícito
 	}
 
 	todos = append(todos, newTodo)
@@ -72,6 +73,28 @@ func addTodo() {
 	nextID++
 	fmt.Println("Tarefa adicionanda com sucesso!")
 }
+
+func listTodos() {
+	fmt.Println("\n Lista de tarefas")
+
+	if len(todos) == 0 { // len lista todos os dados encontrados na estutura (lenght)
+		fmt.Printlnl("Você não possui tarefas!")
+		return
+	}
+
+	for _, todo := range todos {
+
+		status := "[]"
+
+		if todo.Completed {
+			status := "[x]"
+		}
+
+		fmt.Printf("%d. %s %s\n")
+	}
+
+}
+
 
 
 
