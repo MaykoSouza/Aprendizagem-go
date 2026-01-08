@@ -26,9 +26,7 @@ func main () {
 		case "2":
 			listTodos()
 		case "3":
-			markCompleted()
-		case "4":
-			deleteTodo()
+			toggleTodo()
 		case "0":
 			fmt.Println("Saindo...")
 			return
@@ -43,7 +41,6 @@ func printMenu() {
 	fmt.Println("1. Adicionar tarefa")
 	fmt.Println("2. Listar tarefas")
 	fmt.Println("3. Marcar tarefa como concluída")
-	fmt.Println("4. Deletar tarefa")
 	fmt.Println("0. Sair")
 	fmt.Println("Escoha uma opção:")
 }
@@ -60,9 +57,10 @@ func addTodo() {
 
 	if title == "" {
 		fmt.Println("Adicione um título válido")
+		return
 	}
 
-	newTodo := todo{
+	newTodo := Todo{
 		ID: nextID,
 		Title: title,
 		Completed: false, // por padrão é false mas eu preferi deixar explícito
@@ -78,7 +76,7 @@ func listTodos() {
 	fmt.Println("\n Lista de tarefas")
 
 	if len(todos) == 0 { // len lista todos os dados encontrados na estutura (lenght)
-		fmt.Printlnl("Você não possui tarefas!")
+		fmt.Println("Você não possui tarefas!")
 		return
 	}
 
@@ -87,15 +85,47 @@ func listTodos() {
 		status := "[]"
 
 		if todo.Completed {
-			status := "[x]"
+			status = "[x]"
 		}
 
-		fmt.Printf("%d. %s %s\n")
+		fmt.Printf("%d. %s %s\n", todo.ID, status, todo.Title)
 	}
 
 }
 
+func toggleTodo() {
 
+	listTodos()
+	fmt.Println("Digite o ID da tarefa para alterar o status:")
+	var id int 
+
+	_, err := fmt.Scanln(&id)
+
+	bufio.NewReader(os.Stdin) .ReadString('\n')
+
+	if err != nil {
+		fmt.Println("Digite um número válido")
+		return
+	}
+
+	found := false
+
+	for i, _ := range todos {
+		if todos[i].ID == id {
+			todos[i].Completed = !todos[i].Completed // inverte o boolean
+			fmt.Printf("Tarefa '%s' Atualizada!\n", todos[i].Title)
+			found = true
+			break
+		}
+	}
+
+	if !found {
+
+		fmt.Println("ID não encontrado")
+
+	}
+
+}
 
 
 
