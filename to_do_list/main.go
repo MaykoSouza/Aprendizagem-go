@@ -4,18 +4,20 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"encoding/json"
 )
 
 type Todo struct{
-	ID int
-	Title string
-	Completed bool
+	ID int `json: "id"`
+	Title string `json: "title"`
+	Completed bool `json: "completed"`
 }
 
 var todos []Todo 
 var nextID	 int = 1
 
 func main () {
+	loadFromFile()
 	for {
 		printMenu()
 		escolha := readInput()
@@ -70,6 +72,7 @@ func addTodo() {
 
 	nextID++
 	fmt.Println("Tarefa adicionanda com sucesso!")
+	saveToFile()
 }
 
 func listTodos() {
@@ -124,9 +127,36 @@ func toggleTodo() {
 		fmt.Println("ID não encontrado")
 
 	}
+	saveToFile()
 
 }
 
+func saveToFile(){
+	data, err := json.MarshalIndent(todos, "", "    ")
+	if err != nil {
+		fmt.Println("Erro ao gerar JSON:", err)
+		return
+	}
 
+	err = os.WriteFile("todos.json", data, 0644)
+	if err != nil {
+		fmt.Println("Erro ao salvar arquivo:", err)
+	}
+}
 
+func loadFromFile(){
+	data, err := os.ReadFile("todos.json")
+	if err != nil {
+		return
+	}
 
+	err = json.Unmarshal(data, &todos)
+	if err != nil {
+		fmt.Println("Erro ao carregar dados:", err)
+		return
+	}
+
+	if len(todos) > 0 {
+		nextID = todos[len(todos)-1].ID + 1
+	}
+}
