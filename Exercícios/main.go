@@ -7,15 +7,15 @@ import(
 	"encoding/json"
 )
 
-type server struct {
+type Server struct {
 	Name string  `json:"name"`
 	IP string  `json:"ip"`
 	Status bool `json:"status"`
 }
 
 func main(){
-	
-	servers := server{
+
+	servers := Server{
 		Name: "servidor01",
 		IP: "192.168.0.1",
 		Status: true,
